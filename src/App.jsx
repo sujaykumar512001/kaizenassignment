@@ -7,6 +7,7 @@ import ClaimForm from './pages/ClaimForm'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
 import SuccessPage from './pages/SuccessPage'
+import AdminPage from './pages/AdminPage'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/success" element={<SuccessPage />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </main>
         <Footer />

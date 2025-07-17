@@ -6,22 +6,6 @@
   box-sizing: border-box;
 }
 
-/* Mobile-first approach - Base styles for mobile */
-:root {
-  --transition-duration: 0.3s;
-  --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Smooth transitions for all interactive elements */
-.card,
-.contact-btn,
-.submit-btn,
-.nav-links a,
-.benefit-icon,
-.availability-circle {
-  transition: all var(--transition-duration) var(--transition-timing);
-}
-
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   background: url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat fixed;
@@ -175,17 +159,6 @@ main {
   z-index: 2;
 }
 
-.gradient-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(236, 72, 153, 0.15) 50%, rgba(139, 92, 246, 0.05) 100%);
-  border-radius: 12px;
-  z-index: -1;
-}
-
 .card-title {
   font-size: 1.5rem;
   font-weight: 700;
@@ -231,6 +204,26 @@ main {
   margin-bottom: 2rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   letter-spacing: -0.02em;
+}
+
+/* Availability Badge */
+.availability-badge {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
 .benefits-list {
@@ -598,24 +591,6 @@ footer {
     padding: 1rem;
   }
 
-  .card-partitions {
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  .left-partition {
-    flex: 1;
-    margin-right: 0;
-    border: 3px solid rgba(255, 255, 255, 0.5);
-  }
-
-  .help-text {
-    position: static;
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-
   .free-case-title {
     font-size: 1.8rem;
   }
@@ -632,17 +607,175 @@ footer {
   .contact-btn {
     width: 100%;
     justify-content: center;
+    min-height: 48px; /* Better touch target */
   }
 
   .submit-btn {
     font-size: 0.9rem;
     padding: 0.875rem 1.5rem;
+    min-height: 48px; /* Better touch target */
   }
 
   .claim-form-card .card-title {
     margin: -1rem -1rem 1rem -1rem;
     padding: 1rem;
   }
+
+  .availability-badge {
+    position: static;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  /* Enhanced mobile form inputs */
+  .form-input {
+    min-height: 44px; /* iOS recommended touch target */
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  .form-textarea {
+    min-height: 120px;
+  }
+
+  /* Mobile navigation improvements */
+  .nav-links a {
+    padding: 0.75rem 1rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Mobile card improvements */
+  .card {
+    margin: 0 0.5rem;
+    border-radius: 12px;
+  }
+
+  /* Mobile button improvements */
+  .contact-btn,
+  .submit-btn {
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* Mobile text improvements */
+  .hero-subtitle {
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+
+  .card-title {
+    font-size: 1.3rem;
+  }
+
+  /* Mobile spacing improvements */
+  .benefits-list {
+    gap: 0.75rem;
+  }
+
+  .benefits-list li {
+    padding: 0.75rem;
+  }
+
+  /* Mobile legal text */
+  .legal-disclosure {
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+}
+
+/* Extra Small Mobile Devices */
+@media (max-width: 480px) {
+  main {
+    padding: 0.5rem;
+  }
+
+  .card {
+    padding: 0.75rem;
+    margin: 0 0.25rem;
+  }
+
+  .hero-title {
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .free-case-title {
+    font-size: 1.6rem;
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+  }
+
+  .benefits-list li {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
+
+  .benefit-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 0.9rem;
+  }
+
+  .contact-btn,
+  .submit-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .form-input {
+    padding: 0.625rem;
+    font-size: 16px;
+  }
+
+  .form-label {
+    font-size: 0.85rem;
+  }
+
+  .legal-disclosure {
+    font-size: 0.7rem;
+    padding: 0.75rem;
+  }
+
+  .captcha-checkbox {
+    font-size: 0.85rem;
+  }
+
+  .captcha-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Landscape Mobile Devices */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
+  .cards-container {
+    gap: 1rem;
+  }
+
+  .card {
+    padding: 0.75rem;
+  }
+
+  .free-case-title {
+    font-size: 1.6rem;
+  }
+
+  .benefits-list li {
+    padding: 0.5rem;
+  }
 }
 
 /* Tablet Responsive Design */
@@ -652,30 +785,22 @@ footer {
     gap: 1.5rem;
   }
 
-  .card-partitions {
-    gap: 2rem;
-  }
-
-  .left-partition {
-    flex: 0 0 45%;
-  }
-
-  .right-partition {
-    width: 130px;
-    height: 130px;
-  }
-
-  .availability-circle {
-    width: 120px;
-    height: 120px;
-  }
-
   .free-case-title {
     font-size: 2rem;
   }
 
   .benefits-list li {
     font-size: 0.9rem;
+  }
+
+  /* Tablet form improvements */
+  .form-input {
+    min-height: 44px;
+  }
+
+  .contact-btn,
+  .submit-btn {
+    min-height: 48px;
   }
 }
 
@@ -686,82 +811,74 @@ footer {
     margin: 0 auto;
   }
 
-  .card-partitions {
-    gap: 3rem;
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .left-partition {
-    flex: 0 0 50%;
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
   }
 
-  .right-partition {
-    width: 150px;
-    height: 150px;
-  }
-
-  .availability-circle {
-    width: 140px;
-    height: 140px;
-  }
-}
-
-/* Tablet Responsive Design */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .cards-container {
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-  }
-
-  .card-partitions {
+  /* Large screen form improvements */
+  .form-grid {
     gap: 2rem;
   }
 
-  .left-partition {
-    flex: 0 0 45%;
+  .form-input {
+    padding: 1rem;
+    font-size: 1rem;
   }
 
-  .right-partition {
-    width: 130px;
-    height: 130px;
-  }
-
-  .availability-circle {
-    width: 120px;
-    height: 120px;
-  }
-
-  .free-case-title {
-    font-size: 2rem;
-  }
-
-  .benefits-list li {
-    font-size: 0.9rem;
+  .contact-btn,
+  .submit-btn {
+    padding: 1.25rem 2.5rem;
+    font-size: 1.1rem;
   }
 }
 
-/* Large Desktop Responsive Design */
-@media (min-width: 1025px) {
-  .cards-container {
-    max-width: 1400px;
-    margin: 0 auto;
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .card {
+    border: 0.5px solid rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Reduced Motion for Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 
-  .card-partitions {
-    gap: 3rem;
+  .availability-badge {
+    animation: none;
   }
 
-  .left-partition {
-    flex: 0 0 50%;
+  .contact-btn:hover,
+  .submit-btn:hover {
+    transform: none;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: rgba(30, 30, 30, 0.95);
+    color: #fff;
   }
 
-  .right-partition {
-    width: 150px;
-    height: 150px;
+  .form-input {
+    background: rgba(40, 40, 40, 0.9);
+    color: #fff;
+    border-color: #555;
   }
 
-  .availability-circle {
-    width: 140px;
-    height: 140px;
+  .form-input:focus {
+    background: rgba(50, 50, 50, 0.9);
   }
 }
 
@@ -805,246 +922,323 @@ footer {
   }
 }
 
-/* Extra Small Mobile Devices */
-@media (max-width: 480px) {
-  main {
-    padding: 0.5rem;
-  }
+/* Admin Page Styles */
+.admin-page {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
 
-  .card {
-    padding: 1rem;
-  }
+.admin-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
 
-  .card-partitions {
-    gap: 1rem;
-  }
+.admin-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
 
-  .left-partition {
-    padding: 1rem;
-    margin-right: -40px;
-    margin-left: 0;
-    border: 3px solid rgba(255, 255, 255, 0.5);
-  }
+.admin-header p {
+  color: #666;
+  font-size: 1.1rem;
+}
 
-  .right-partition {
-    width: 100px;
-    height: 100px;
-  }
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
 
-  .availability-circle {
-    width: 60px;
-    height: 60px;
-    right: -30px;
-    left: auto;
-    margin: 0;
-    display: flex;
-    clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
-    border: none;
-  }
-  .availability-circle::before {
-    width: 30px;
-    height: 60px;
-    filter: blur(5px);
-  }
-  .circle-text {
-    font-size: 0.6rem;
-    padding-left: 8px;
-    width: 100%;
-  }
-  
-  .text-top {
-    font-size: 0.6rem;
-  }
-  
-  .text-center {
-    font-size: 1.1rem;
-  }
-  
-  .text-bottom {
-    font-size: 0.6rem;
-  }
-  .slots-number {
+.stat-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card h3 {
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #667eea;
+  line-height: 1;
+}
+
+/* Admin Controls */
+.admin-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
     font-size: 0.9rem;
-  }
+  background: white;
+  transition: border-color 0.3s ease;
+}
 
-  .free-case-title {
-    font-size: 1.5rem;
-  }
+.search-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
 
-  .benefits-list li {
-    font-size: 0.8rem;
+.search-btn {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+  background: #5a67d8;
+}
+
+.sort-controls {
+  display: flex;
     gap: 0.5rem;
   }
 
-  .benefit-icon {
-    width: 20px;
-    height: 20px;
-    font-size: 0.7rem;
-  }
-
-  .contact-btn {
-    padding: 0.625rem 1.25rem;
-    font-size: 0.8rem;
-  }
-
-  .hero-title {
-    font-size: 1.75rem;
-  }
-
-  .card-title {
-    font-size: 1.25rem;
-  }
-
-  .form-input {
-    padding: 0.625rem;
-  }
-
-  .submit-btn {
-    padding: 0.875rem 1.25rem;
-  }
+.sort-select {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: white;
+  cursor: pointer;
 }
 
-/* Landscape Mobile Devices */
-@media (max-width: 768px) and (orientation: landscape) {
-  .cards-container {
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .card-partitions {
-    flex-direction: row;
-    gap: 1rem;
-  }
-
-  .left-partition {
-    flex: 0 0 60%;
-    margin-right: -50px;
-    margin-left: 0;
-    border: 3px solid rgba(255, 255, 255, 0.5);
-  }
-
-  .right-partition {
-    order: 0;
-    width: 100px;
-    height: 100px;
-  }
-
-  .availability-circle {
-    width: 50px;
-    height: 50px;
-    right: -25px;
-    left: auto;
-    margin: 0;
-    display: flex;
-    clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
-    border: none;
-  }
+.sort-select:focus {
+  outline: none;
+  border-color: #667eea;
 }
 
-/* Form Loading and Error States */
-.form-error {
-  color: #dc2626;
+/* Error Message */
+.error-message {
   background: rgba(220, 38, 38, 0.1);
   border: 1px solid rgba(220, 38, 38, 0.2);
   border-radius: 8px;
-  padding: 0.75rem;
-  margin-top: 1rem;
-  font-size: 0.9rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  color: #dc2626;
   font-weight: 500;
 }
 
-.form-success {
-  color: #059669;
-  background: rgba(5, 150, 105, 0.1);
-  border: 1px solid rgba(5, 150, 105, 0.2);
+/* Submissions Table */
+.submissions-table {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.submissions-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.submissions-table th {
+  background: rgba(102, 126, 234, 0.1);
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.submissions-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  vertical-align: top;
+}
+
+.submissions-table tr:hover {
+  background: rgba(102, 126, 234, 0.02);
+}
+
+.name-cell strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #333;
+}
+
+.age-info {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.contact-cell div {
+  margin-bottom: 0.25rem;
+}
+
+.contact-cell div:last-child {
+  margin-bottom: 0;
+}
+
+.diagnosis-badge {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.no-submissions {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.pagination-btn {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
   border-radius: 8px;
-  padding: 0.75rem;
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.submit-btn:disabled {
-  opacity: 0.7;
+.pagination-btn:hover:not(:disabled) {
+  background: #5a67d8;
+}
+
+.pagination-btn:disabled {
+  background: #ccc;
   cursor: not-allowed;
-  transform: none !important;
 }
 
-.submit-btn:disabled:hover {
-  transform: none !important;
-  box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3) !important;
+.page-info {
+  font-weight: 600;
+  color: #333;
 }
 
-/* Loading spinner for submit button */
-.submit-btn:disabled::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 16px;
-  height: 16px;
-  margin: -8px 0 0 -8px;
-  border: 2px solid transparent;
-  border-top: 2px solid white;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+/* Refresh Section */
+.refresh-section {
+  text-align: center;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.refresh-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
-/* Optimized form input focus states */
-.form-input:focus {
-  outline: none;
-  border-color: #667eea;
-  background: white;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-  transition: all 0.2s ease;
+.refresh-btn:hover {
+  transform: translateY(-2px);
 }
 
-/* Form validation styles */
-.form-input.error {
-  border-color: #dc2626;
-  background: rgba(220, 38, 38, 0.05);
-}
+/* Mobile Responsive for Admin Page */
+@media (max-width: 768px) {
+  .admin-page {
+    padding: 1rem;
+  }
 
-.form-input.success {
-  border-color: #059669;
-  background: rgba(5, 150, 105, 0.05);
-}
+  .admin-header h1 {
+    font-size: 2rem;
+  }
 
-/* Optimized button hover effects */
-.contact-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(212, 165, 116, 0.6);
-  background: linear-gradient(135deg, #c19a6b, #a67c52);
-}
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
 
-.contact-btn:active {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(212, 165, 116, 0.5);
-}
+  .stat-number {
+    font-size: 2rem;
+  }
 
-/* Performance optimizations */
-.card {
-  will-change: transform;
-  backface-visibility: hidden;
-}
+  .admin-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-.benefits-list li {
-  will-change: transform;
-}
+  .search-form {
+    max-width: none;
+  }
 
-/* Smooth scrolling optimization */
-html {
-  scroll-behavior: smooth;
-}
+  .sort-controls {
+    justify-content: center;
+  }
 
-/* Optimized transitions */
-* {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+  .submissions-table {
+    overflow-x: auto;
+  }
+
+  .submissions-table table {
+    min-width: 600px;
+  }
+
+  .submissions-table th,
+  .submissions-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.9rem;
+  }
 }

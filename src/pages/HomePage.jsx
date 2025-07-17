@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../config/api';
 
 const HomePage = () => {
   const [currentTime, setCurrentTime] = useState('');
@@ -83,7 +84,7 @@ const HomePage = () => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
 
-      const response = await fetch('http://localhost:5004/api/form', {
+      const response = await fetch(API_ENDPOINTS.FORM_SUBMISSION, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -157,6 +158,7 @@ const HomePage = () => {
           <div className="left-cards">
             {/* Free Case Review Card */}
             <div className="card free-case-review">
+              <div className="availability-badge">ONLY 6 SLOTS LEFT</div>
               <h3 className="free-case-title">
                 Free<br />
                 Case<br />

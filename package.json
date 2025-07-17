@@ -2,26 +2,31 @@
   "name": "mesothelioma-legal-claim-form",
   "version": "1.0.0",
   "description": "A responsive React.js website for mesothelioma legal claim submissions",
+  "homepage": "https://sujaykumar512001.github.io/kaizenassignment",
   "main": "index.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "vite preview"
+    "start": "vite preview",
+    "vercel-build": "vite build",
+    "predeploy": "npm run build",
+    "deploy": "node deploy.js"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.8.0",
     "react-hook-form": "^7.43.0",
-    "yup": "^1.0.0",
-    "@hookform/resolvers": "^2.9.0"
+    "react-router-dom": "^6.8.0",
+    "yup": "^1.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
-    "@vitejs/plugin-react": "^3.1.0",
-    "vite": "^4.1.0"
+    "@vitejs/plugin-react": "^4.0.0",
+    "gh-pages": "^6.3.0",
+    "vite": "^4.4.0"
   },
   "keywords": [
     "react",
@@ -32,4 +37,4 @@
   ],
   "author": "Your Name",
   "license": "MIT"
-} 
+}

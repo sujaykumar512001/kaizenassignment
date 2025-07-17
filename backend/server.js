@@ -3,6 +3,7 @@ const cors = require('cors');
 const { testConnection } = require('./config/db');
 const formRoutes = require('./routes/formRoutes');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
+const net = require('net');
 require('dotenv').config();
 
 const app = express();
@@ -51,16 +52,51 @@ const startServer = async () => {
     // Test database connection
     await testConnection();
     
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-      console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
-      console.log(`🌐 CORS Origins: ${process.env.CORS_ORIGIN || 'http://localhost:3000-3004'}`);
-      console.log(`📝 API Documentation:`);
-      console.log(`   POST /api/form - Submit mesothelioma claim form`);
-      console.log(`   GET  /api/form - Get all form submissions (with pagination)`);
-      console.log(`   GET  /api/form/stats - Get submission statistics`);
-      console.log(`   GET  /health - Health check endpoint`);
-    });
+    // Function to try different ports
+    const tryPort = (port) => {
+      return new Promise((resolve, reject) => {
+        const server = app.listen(port, () => {
+          console.log(`🚀 Server running on port ${port}`);
+          console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
+          console.log(`🌐 CORS Origins: ${process.env.CORS_ORIGIN || 'http://localhost:3000-3004'}`);
+          console.log(`📝 API Documentation:`);
+          console.log(`   POST /api/form - Submit mesothelioma claim form`);
+          console.log(`   GET  /api/form - Get all form submissions (with pagination)`);
+          console.log(`   GET  /api/form/stats - Get submission statistics`);
+          console.log(`   GET  /health - Health check endpoint`);
+          resolve(server);
+        });
+
+        server.on('error', (err) => {
+          if (err.code === 'EADDRINUSE') {
+            reject(err);
+          } else {
+            console.error('❌ Server error:', err);
+            process.exit(1);
+          }
+        });
+      });
+    };
+
+    // Try ports starting from the specified port
+    let currentPort = PORT;
+    let server;
+    
+    while (currentPort < PORT + 10) {
+      try {
+        server = await tryPort(currentPort);
+        break;
+      } catch (err) {
+        console.log(`⚠️  Port ${currentPort} is in use, trying ${currentPort + 1}...`);
+        currentPort++;
+      }
+    }
+
+    if (!server) {
+      console.error(`❌ Could not find an available port between ${PORT} and ${PORT + 9}`);
+      process.exit(1);
+    }
+
   } catch (error) {
     console.error('❌ Failed to start server:', error);
     process.exit(1);

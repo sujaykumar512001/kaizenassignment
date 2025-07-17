@@ -49,7 +49,7 @@ class FormService {
    * @returns {Promise<Object>} Paginated submissions
    */
   static async getSubmissions(options = {}) {
-    const { page = 1, limit = 10, search, sortBy = 'createdAt', sortOrder = 'DESC' } = options;
+    const { page = 1, limit = 10, search, sortBy = 'created_at', sortOrder = 'DESC' } = options;
     
     // Check cache first
     if (submissionsCache.isValid() && !search) {
@@ -83,7 +83,7 @@ class FormService {
         'email', 
         'jobTitle', 
         'diagnosisType', 
-        'createdAt'
+        'created_at'
       ],
       order: [[sortBy, sortOrder.toUpperCase()]],
       limit: parseInt(limit),
@@ -125,39 +125,58 @@ class FormService {
       };
     }
 
-    // Optimized aggregation queries for SQLite
-    const [totalSubmissions, diagnosisStats, monthlyStats] = await Promise.all([
-      FormSubmission.count(),
-      FormSubmission.findAll({
-        attributes: [
-          'diagnosisType',
-          [FormSubmission.sequelize.fn('COUNT', FormSubmission.sequelize.col('id')), 'count']
-        ],
-        group: ['diagnosisType'],
-        raw: true
-      }),
-      FormSubmission.findAll({
-        attributes: [
-          [FormSubmission.sequelize.fn('strftime', '%Y-%m', FormSubmission.sequelize.col('createdAt')), 'month'],
-          [FormSubmission.sequelize.fn('COUNT', FormSubmission.sequelize.col('id')), 'count']
-        ],
-        group: [FormSubmission.sequelize.fn('strftime', '%Y-%m', FormSubmission.sequelize.col('createdAt'))],
-        order: [[FormSubmission.sequelize.fn('strftime', '%Y-%m', FormSubmission.sequelize.col('createdAt')), 'DESC']],
-        limit: 12,
-        raw: true
-      })
-    ]);
+    try {
+      // Optimized aggregation queries for SQLite
+      const [totalSubmissions, diagnosisStats, monthlyStats] = await Promise.all([
+        FormSubmission.count(),
+        FormSubmission.findAll({
+          attributes: [
+            'diagnosisType',
+            [FormSubmission.sequelize.fn('COUNT', FormSubmission.sequelize.col('id')), 'count']
+          ],
+          group: ['diagnosisType'],
+          raw: true
+        }),
+        FormSubmission.findAll({
+          attributes: [
+            [FormSubmission.sequelize.fn('strftime', '%Y-%m', FormSubmission.sequelize.col('created_at')), 'month'],
+            [FormSubmission.sequelize.fn('COUNT', FormSubmission.sequelize.col('id')), 'count']
+          ],
+          group: [FormSubmission.sequelize.fn('strftime', '%Y-%m', FormSubmission.sequelize.col('created_at'))],
+          order: [[FormSubmission.sequelize.fn('strftime', '%Y-%m', FormSubmission.sequelize.col('created_at')), 'DESC']],
+          limit: 12,
+          raw: true
+        })
+      ]);
 
-    const stats = {
-      totalSubmissions,
-      diagnosisStats,
-      monthlyStats
-    };
+      const stats = {
+        totalSubmissions,
+        diagnosisStats,
+        monthlyStats,
+        // Add basic time-based stats
+        thisMonth: monthlyStats.find(s => s.month === new Date().toISOString().slice(0, 7))?.count || 0,
+        thisWeek: 0, // Will be calculated if needed
+        today: 0 // Will be calculated if needed
+      };
 
-    return {
-      ...stats,
-      cached: false
-    };
+      return {
+        ...stats,
+        cached: false
+      };
+    } catch (error) {
+      console.error('Error fetching submission stats:', error);
+      // Return basic stats even if detailed stats fail
+      const totalSubmissions = await FormSubmission.count();
+      return {
+        totalSubmissions,
+        diagnosisStats: [],
+        monthlyStats: [],
+        thisMonth: 0,
+        thisWeek: 0,
+        today: 0,
+        cached: false
+      };
+    }
   }
 
   /**
