@@ -33,6 +33,7 @@ const FormSubmission = sequelize.define('FormSubmission', {
   email: {
     type: DataTypes.STRING(255),
     allowNull: false,
+    unique: true,
     validate: {
       isEmail: true,
       notEmpty: true

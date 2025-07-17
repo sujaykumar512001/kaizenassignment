@@ -142,8 +142,8 @@ class FormService {
             [FormSubmission.sequelize.fn('strftime', '%Y-%m', FormSubmission.sequelize.col('created_at')), 'month'],
             [FormSubmission.sequelize.fn('COUNT', FormSubmission.sequelize.col('id')), 'count']
           ],
-          group: [FormSubmission.sequelize.fn('strftime', '%Y-%m', FormSubmission.sequelize.col('created_at'))],
-          order: [[FormSubmission.sequelize.fn('strftime', '%Y-%m', FormSubmission.sequelize.col('created_at')), 'DESC']],
+          group: ['month'],
+          order: [['month', 'DESC']],
           limit: 12,
           raw: true
         })
